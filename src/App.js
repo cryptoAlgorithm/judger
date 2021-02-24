@@ -19,11 +19,15 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Avatar from '@material-ui/core/Avatar';
+import Card from '@material-ui/core/Card';
 
 // Material Icons
 import HomeRounded from '@material-ui/icons/HomeRounded';
 import StorageRounded from '@material-ui/icons/StorageRounded';
-import {Home} from "@material-ui/icons";
+import AccountCircleRounded from '@material-ui/icons/AccountCircleRounded';
 
 const drawerWidth = 240;
 
@@ -105,6 +109,8 @@ function App() {
     const classes = useStyles(darkTheme);
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const usrMenu = Boolean(anchorEl);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -114,6 +120,15 @@ function App() {
         setOpen(false);
     };
 
+    const handleMenu = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+
     return (
         <ThemeProvider theme={darkTheme}>
             <div className={classes.root}>
@@ -122,8 +137,7 @@ function App() {
                     position="fixed"
                     className={clsx(classes.appBar, {
                         [classes.appBarShift]: open,
-                    })}
-                >
+                    })}>
                     <Toolbar>
                         <IconButton
                             color="inherit"
@@ -132,13 +146,39 @@ function App() {
                             edge="start"
                             className={clsx(classes.menuButton, {
                                 [classes.hide]: open,
-                            })}
-                        >
+                            })}>
                             <MenuIcon/>
                         </IconButton>
                         <Typography variant="h6" noWrap>
                             Judge Demo - Problems
                         </Typography>
+                        <div>
+                            <IconButton
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                color="inherit"
+                                onClick={handleMenu}>
+                                <AccountCircleRounded />
+                            </IconButton>
+                            <Menu
+                                id="menu-appbar"
+                                anchorEl={anchorEl}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={usrMenu}
+                                onClose={handleClose}>
+                                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                                <MenuItem onClick={handleClose}>My account</MenuItem>
+                            </Menu>
+                        </div>
                     </Toolbar>
                 </AppBar>
                 <Drawer
@@ -152,8 +192,7 @@ function App() {
                             [classes.drawerOpen]: open,
                             [classes.drawerClose]: !open,
                         }),
-                    }}
-                >
+                    }}>
                     <div className={classes.toolbar}>
                         <IconButton onClick={handleDrawerClose}>
                             {theme.direction === 'rtl' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
@@ -174,29 +213,26 @@ function App() {
                 </Drawer>
                 <main className={classes.content}>
                     <div className={classes.toolbar}/>
-                    <Typography paragraph>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                        ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-                        facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-                        gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-                        donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-                        adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-                        Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-                        imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-                        arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-                        donec massa sapien faucibus et molestie ac.
+                    <Typography variant="h4">
+                        Problems
                     </Typography>
-                    <Typography paragraph>
-                        Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-                        facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-                        tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-                        consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-                        vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-                        hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-                        tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-                        nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-                        accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-                    </Typography>
+                    <Card>
+                        <List aria-label="main mailbox folders">
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <Avatar>Qn</Avatar>
+                                </ListItemIcon>
+                                <ListItemText primary="Inbox" />
+                            </ListItem>
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <Avatar>Qn</Avatar>
+                                </ListItemIcon>
+                                <ListItemText primary="Drafts" />
+                            </ListItem>
+                        </List>
+                    </Card>
+
                 </main>
             </div>
         </ThemeProvider>
